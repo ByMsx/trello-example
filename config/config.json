@@ -1,7 +1,10 @@
 {
   "development": {
-    "storage": "db.db",
-    "dialect": "sqlite"
+    "dialect": "postgres",
+    "host": "db",
+    "username": "example",
+    "password": "example",
+    "database": "example"
   },
   "test": {
     "username": "root",

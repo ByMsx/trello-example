@@ -1,11 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards, HttpCode } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  UseGuards,
+  HttpCode,
+} from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-import { UserFromJwt, User } from "../auth/user.decorator";
-import { IsCommentAuthorGuard } from "./is-comment-author.guard";
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { Comment } from "../../models";
+import { UserFromJwt, User } from '../auth/user.decorator';
+import { IsCommentAuthorGuard } from './is-comment-author.guard';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Comment } from '../models';
 
 @ApiTags('comments')
 @ApiBearerAuth()
@@ -16,7 +33,11 @@ export class CommentsController {
   @Post()
   @ApiOperation({ summary: 'Posts a comment' })
   @ApiResponse({ status: 201, type: Comment })
-  create(@Param('cardId', ParseIntPipe) cardId: number, @User() user: UserFromJwt, @Body() createCommentDto: CreateCommentDto) {
+  create(
+    @Param('cardId', ParseIntPipe) cardId: number,
+    @User() user: UserFromJwt,
+    @Body() createCommentDto: CreateCommentDto,
+  ) {
     return this.commentsService.create(user.id, cardId, createCommentDto);
   }
 

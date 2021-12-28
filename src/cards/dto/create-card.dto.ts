@@ -1,6 +1,6 @@
-import { CardCreationAttributes } from "../../../models/card";
-import { IsOptional, IsString, Length } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { CardCreationAttributes } from '../../models/card';
+import { IsOptional, IsString, Length } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCardDto implements Omit<CardCreationAttributes, 'columnId'> {
   @ApiProperty({ maxLength: 512, minLength: 1 })

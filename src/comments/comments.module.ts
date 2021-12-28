@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CommentsController } from './comments.controller';
-import { Comment } from "../../models";
+import { Comment } from '../models';
 
 @Module({
   controllers: [CommentsController],
@@ -10,7 +10,7 @@ import { Comment } from "../../models";
     {
       provide: 'COMMENTS_REPO',
       useValue: Comment,
-    }
-  ]
+    },
+  ],
 })
 export class CommentsModule {}

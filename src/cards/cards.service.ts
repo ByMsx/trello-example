@@ -1,11 +1,11 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
-import { Card } from "../../models";
-import { ModelService } from "../model-service.class";
+import { Card } from '../models';
+import { ModelService } from '../model-service.class';
 
 @Injectable()
-export class CardsService extends ModelService<Card, UpdateCardDto>{
+export class CardsService extends ModelService<Card, UpdateCardDto> {
   constructor(@Inject('CARDS_REPO') model: typeof Card) {
     super(model);
   }

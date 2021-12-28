@@ -6,16 +6,24 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards, ParseIntPipe, HttpCode
-} from "@nestjs/common";
-import { ColumnsService} from "../shared/columns.service";
+  UseGuards,
+  ParseIntPipe,
+  HttpCode,
+} from '@nestjs/common';
+import { ColumnsService } from '../shared/columns.service';
 import { CreateColumnDto } from './dto/create-column.dto';
 import { UpdateColumnDto } from './dto/update-column.dto';
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
-import { UserFromJwt, User } from "../auth/user.decorator";
-import { IsColumnOwnerGuard } from "../shared/is-column-owner-guard.service";
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { Column } from "../../models";
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UserFromJwt, User } from '../auth/user.decorator';
+import { IsColumnOwnerGuard } from '../shared/is-column-owner-guard.service';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Column } from '../models';
 
 @ApiTags('columns')
 @Controller('')
@@ -34,7 +42,7 @@ export class ColumnsController {
 
   @Get()
   @ApiResponse({ status: 200, type: [Column] })
-  findAll(@User() user: UserFromJwt) {
+  findAll() {
     return this.columnsService.findAll();
   }
 
@@ -48,15 +56,26 @@ export class ColumnsController {
   @UseGuards(IsColumnOwnerGuard)
   @Patch(':columnId')
   @ApiResponse({ status: 200, type: Column })
-  @ApiParam({ name: 'columnId', type: Number, description: 'ID of column to change' })
-  update(@Param('columnId', ParseIntPipe) id: number, @Body() updateColumnDto: UpdateColumnDto) {
+  @ApiParam({
+    name: 'columnId',
+    type: Number,
+    description: 'ID of column to change',
+  })
+  update(
+    @Param('columnId', ParseIntPipe) id: number,
+    @Body() updateColumnDto: UpdateColumnDto,
+  ) {
     return this.columnsService.update(+id, updateColumnDto);
   }
 
   @UseGuards(IsColumnOwnerGuard)
   @Delete(':columnId')
   @HttpCode(204)
-  @ApiParam({ name: 'columnId', type: Number, description: 'ID of column to remove' })
+  @ApiParam({
+    name: 'columnId',
+    type: Number,
+    description: 'ID of column to remove',
+  })
   async remove(@Param('columnId', ParseIntPipe) id: number) {
     await this.columnsService.remove(+id);
   }

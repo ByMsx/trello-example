@@ -1,11 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards, HttpCode } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  UseGuards,
+  HttpCode,
+} from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
-import { IsColumnOwnerGuard } from "../shared/is-column-owner-guard.service";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { Card } from "../../models";
+import { IsColumnOwnerGuard } from '../shared/is-column-owner-guard.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Card } from '../models';
 
 @ApiTags('cards')
 @Controller('')
@@ -18,7 +34,10 @@ export class CardsController {
   @Post()
   @ApiOperation({ summary: 'Creates card' })
   @ApiResponse({ status: 201, type: Card })
-  create(@Param('columnId', ParseIntPipe) columnId: number, @Body() createCardDto: CreateCardDto) {
+  create(
+    @Param('columnId', ParseIntPipe) columnId: number,
+    @Body() createCardDto: CreateCardDto,
+  ) {
     return this.cardsService.create(columnId, createCardDto);
   }
 
@@ -36,7 +55,10 @@ export class CardsController {
 
   @UseGuards(IsColumnOwnerGuard)
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateCardDto: UpdateCardDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateCardDto: UpdateCardDto,
+  ) {
     return this.cardsService.update(id, updateCardDto);
   }
 

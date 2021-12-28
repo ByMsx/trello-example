@@ -1,12 +1,17 @@
-import { ForbiddenException, HttpCode, Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { Column } from "../../models";
-import { UpdateColumnDto } from "../columns/dto/update-column.dto";
-import { CreateColumnDto } from "../columns/dto/create-column.dto";
+import {
+  ForbiddenException,
+  HttpCode,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { Column } from '../models';
+import { UpdateColumnDto } from '../columns/dto/update-column.dto';
+import { CreateColumnDto } from '../columns/dto/create-column.dto';
 
 @Injectable()
 export class ColumnsService {
-  constructor(@Inject('COLUMNS_REPO') private model: typeof Column) {
-  }
+  constructor(@Inject('COLUMNS_REPO') private model: typeof Column) {}
 
   create(createColumnDto: CreateColumnDto, ownerId: number) {
     return this.model.create({

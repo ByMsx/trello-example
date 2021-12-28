@@ -1,7 +1,7 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { User } from "../../models";
-import * as md5 from "md5";
-import { JwtService } from "@nestjs/jwt";
+import { Inject, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as md5 from 'md5';
+import { User } from '../models';
 
 export type UserCredentials = Pick<User, 'email'> & { password: string };
 
@@ -10,8 +10,7 @@ export class AuthService {
   constructor(
     @Inject('USERS_REPOSITORY') private readonly userModel: typeof User,
     private jwtService: JwtService,
-  ) {
-  }
+  ) {}
 
   async findUserByCredentials(credentials: UserCredentials): Promise<User> {
     return this.userModel.findOne({
