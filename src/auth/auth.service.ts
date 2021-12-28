@@ -14,7 +14,7 @@ export class AuthService {
   }
 
   async findUserByCredentials(credentials: UserCredentials): Promise<User> {
-    return await this.userModel.findOne({
+    return this.userModel.findOne({
       where: {
         email: credentials.email,
         passwordHash: this.hashPassword(credentials.password),
@@ -23,7 +23,6 @@ export class AuthService {
   }
 
   login(user: any) {
-    console.dir(user);
     return {
       token: this.jwtService.sign({ id: user.id }),
     };

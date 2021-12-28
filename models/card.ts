@@ -1,6 +1,7 @@
 import { Association, BelongsToGetAssociationMixin, DataTypes, Model, Optional } from "sequelize";
 import { Column } from "./column";
 import { sequelize } from "./connection";
+import { ApiProperty } from "@nestjs/swagger";
 
 export interface CardAttributes {
   id: number;
@@ -12,10 +13,19 @@ export interface CardAttributes {
 export type CardCreationAttributes = Optional<CardAttributes, 'id'>;
 
 export class Card extends Model<CardAttributes, CardCreationAttributes> implements CardAttributes {
+  @ApiProperty()
   public id!: number;
+  @ApiProperty()
   public title!: string;
+  @ApiProperty()
   public description!: string;
+  @ApiProperty()
   public columnId!: number;
+
+  @ApiProperty()
+  public readonly createdAt!: Date;
+  @ApiProperty()
+  public readonly updatedAt!: Date;
 
   public readonly column?: Column;
 

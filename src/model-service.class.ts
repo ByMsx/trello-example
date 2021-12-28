@@ -1,4 +1,4 @@
-import { NotFoundException } from "@nestjs/common";
+import { HttpCode, NotFoundException } from "@nestjs/common";
 import { Model } from "sequelize";
 
 export class ModelService<T extends Model, U> {
@@ -23,6 +23,7 @@ export class ModelService<T extends Model, U> {
     return card.update(updateCardDto);
   }
 
+  @HttpCode(204)
   async remove(id: number) {
     const card = await this.findOne(id);
     await card.destroy();

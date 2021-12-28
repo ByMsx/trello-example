@@ -1,4 +1,4 @@
-import { ForbiddenException, Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { ForbiddenException, HttpCode, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { Column } from "../../models";
 import { UpdateColumnDto } from "../columns/dto/update-column.dto";
 import { CreateColumnDto } from "../columns/dto/create-column.dto";
@@ -42,6 +42,7 @@ export class ColumnsService {
     return this.model.update(updateColumnDto, { where: { id } });
   }
 
+  @HttpCode(204)
   async remove(id: number) {
     return this.model.destroy({ where: { id } });
   }

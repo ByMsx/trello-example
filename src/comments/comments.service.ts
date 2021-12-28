@@ -17,4 +17,12 @@ export class CommentsService extends ModelService<Comment, UpdateCommentDto> {
       authorId,
     });
   }
+
+  findAllInCard(cardId: number) {
+    return this.model.findAll({
+      where: {
+        cardId,
+      },
+    });
+  }
 }

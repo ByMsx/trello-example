@@ -2,6 +2,7 @@ import { Association, DataTypes, Model, Optional } from "sequelize";
 import { User } from "./user";
 import { Card } from "./card";
 import { sequelize } from "./connection";
+import { ApiProperty } from "@nestjs/swagger";
 
 export interface CommentAttributes {
   id: number;
@@ -13,9 +14,13 @@ export interface CommentAttributes {
 export type CommentCreationAttributes = Optional<CommentAttributes, 'id'>;
 
 export class Comment extends Model<CommentAttributes, CommentCreationAttributes> implements CommentAttributes {
+  @ApiProperty()
   public id!: number;
+  @ApiProperty()
   public text!: string;
+  @ApiProperty()
   public cardId!: number;
+  @ApiProperty()
   public authorId!: number;
 
   public readonly card?: Card;
