@@ -65,6 +65,7 @@ export class ColumnsController {
     @Param('columnId', ParseIntPipe) id: number,
     @Body() updateColumnDto: UpdateColumnDto,
   ) {
+    // TODO: а зачем здесь '+' ?
     return this.columnsService.update(+id, updateColumnDto);
   }
 
