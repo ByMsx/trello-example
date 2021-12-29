@@ -30,6 +30,38 @@ export class Column
   @ApiProperty()
   public readonly updatedAt!: Date;
 
+  //TODO: не нужно перегружать модель такими методами.
+  // Эту логику или напрямую в guard вынести можно, или использовать дополнительный слой в виде репозитория.
+  // Вообще, если в sequalize нет такого понятия как репозиторий, можно на каждую модель создать модуль, типа такого
+  /*
+  @Module({
+    providers: [
+      {
+        provide: Model.name,
+        useValue: Model,
+      },
+      ModelRepository,
+    ],
+    exports: [ModelRepository],
+  })
+  export class ModelModule {}
+*/
+
+  // и создаем репозиторий
+  /*
+  @Injectable()
+  export class ModelRepository {
+    constructor(
+      @Inject(Model.name)
+      readonly model: typeof model,
+    ) {} 
+    ...
+*/
+  // В чем смысл? в сервис мы инжектируем репозиторий.
+  // В репозитории можно описать дополнительную логику, например, когда нужно использовать QueryBuilder
+  // И логика работы с БД получается изолированной от бизнес-логики.
+  // Это замечание, скорее, на второе задание.
+
   public canUserEdit(userId: number): boolean {
     return this.ownerId === userId;
   }

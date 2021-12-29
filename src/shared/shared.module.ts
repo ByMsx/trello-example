@@ -4,6 +4,7 @@ import { IsColumnOwnerGuard } from './is-column-owner-guard.service';
 import { Column } from '../models';
 import { AuthModule } from '../auth/auth.module';
 
+//TODO: не понимаю смысла этого модуля.
 @Module({
   imports: [AuthModule],
   providers: [

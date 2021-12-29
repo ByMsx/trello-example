@@ -9,6 +9,7 @@ import { Column } from '../models';
 import { UpdateColumnDto } from '../columns/dto/update-column.dto';
 import { CreateColumnDto } from '../columns/dto/create-column.dto';
 
+//TODO: почему этот сервис не в columns.module?
 @Injectable()
 export class ColumnsService {
   constructor(@Inject('COLUMNS_REPO') private model: typeof Column) {}
@@ -33,6 +34,7 @@ export class ColumnsService {
     return col;
   }
 
+  // TODO: сервис должен обслуживать API. Этот метод похож на метод репозитория.
   async findOneAndCheckAccess(id: number, ownerId: number) {
     const col = await this.findOne(id);
 

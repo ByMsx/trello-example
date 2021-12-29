@@ -22,7 +22,10 @@ export class Card
   extends Model<CardAttributes, CardCreationAttributes>
   implements CardAttributes
 {
+  //TODO: лучше выделить отдельно DTO-Response и в контроллерах возвращать не модели, а DTO.
+  // Т.к. часто приходится вешать дополнительную логику на него.
   @ApiProperty()
+  // TODO: а зачем '!'?
   public id!: number;
   @ApiProperty()
   public title!: string;
