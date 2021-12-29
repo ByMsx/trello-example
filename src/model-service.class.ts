@@ -1,11 +1,13 @@
 import { NotFoundException } from '@nestjs/common';
 import { Model } from 'sequelize';
+import { plainToClass } from 'class-transformer';
 
 export class ModelService<T extends Model, D, U> {
   constructor(protected model: any, protected dtoConstructor: new () => D) {}
 
-  findAll(): Promise<D[]> {
-    return this.model.findAll({ raw: true });
+  async findAll(): Promise<D[]> {
+    const records = await this.model.findAll();
+    return records.map((record) => this.mapToDto(record));
   }
 
   async findOne(id: number): Promise<D> {
@@ -24,7 +26,8 @@ export class ModelService<T extends Model, D, U> {
 
   async update(id: number, updateCardDto: U) {
     const card = await this.findOne_(id);
-    return card.update(updateCardDto);
+    await card.update(updateCardDto);
+    return this.mapToDto(card);
   }
 
   async remove(id: number) {
@@ -32,9 +35,7 @@ export class ModelService<T extends Model, D, U> {
     await card.destroy();
   }
 
-  private mapToDto(instance: T): D {
-    const dto = new this.dtoConstructor();
-    Object.assign(dto, instance);
-    return dto;
+  protected mapToDto(instance: T): D {
+    return plainToClass(this.dtoConstructor, instance);
   }
 }
