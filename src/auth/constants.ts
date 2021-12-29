@@ -1,4 +1,5 @@
-// TODO: это должно передаваться через env
+const secret = process.env.JWT_SECRET ?? 'supersecret';
+
 export const jwtSettings = {
-  secret: 'supersecret',
+  secret,
 };

@@ -3,7 +3,7 @@ import { IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCommentDto
-  implements Omit<CommentCreationAttributes, 'cardId' | 'authorId'>
+  implements Omit<CommentCreationAttributes, 'cardId' | 'ownerId'>
 {
   @ApiProperty({ maxLength: 512 })
   @IsString()

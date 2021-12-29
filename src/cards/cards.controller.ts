@@ -13,7 +13,6 @@ import {
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
-import { IsColumnOwnerGuard } from '../shared/is-column-owner-guard.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import {
   ApiBearerAuth,
@@ -22,6 +21,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Card } from '../models';
+import { IsCardOwnerGuard } from './is-card-owner.guard';
+import { User, UserFromJwt } from '../auth/user.decorator';
 
 @ApiTags('cards')
 @Controller('')
@@ -30,15 +31,16 @@ import { Card } from '../models';
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
-  @UseGuards(IsColumnOwnerGuard)
+  @UseGuards(IsCardOwnerGuard)
   @Post()
   @ApiOperation({ summary: 'Creates card' })
   @ApiResponse({ status: 201, type: Card })
   create(
     @Param('columnId', ParseIntPipe) columnId: number,
     @Body() createCardDto: CreateCardDto,
+    @User() user: UserFromJwt,
   ) {
-    return this.cardsService.create(columnId, createCardDto);
+    return this.cardsService.create(columnId, user.id, createCardDto);
   }
 
   @Get()
@@ -53,7 +55,7 @@ export class CardsController {
     return this.cardsService.findOne(id);
   }
 
-  @UseGuards(IsColumnOwnerGuard)
+  @UseGuards(IsCardOwnerGuard)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -62,7 +64,7 @@ export class CardsController {
     return this.cardsService.update(id, updateCardDto);
   }
 
-  @UseGuards(IsColumnOwnerGuard)
+  @UseGuards(IsCardOwnerGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Removes card' })
   @HttpCode(204)

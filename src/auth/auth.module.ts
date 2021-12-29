@@ -6,7 +6,8 @@ import { JwtStrategy } from './jwt.strategy';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { User } from '../models';
+import { UsersModule } from '../users/users.module';
+import { SignInController } from './sign-in.controller';
 
 @Module({
   imports: [
@@ -14,7 +15,9 @@ import { User } from '../models';
       secret: jwtSettings.secret,
       signOptions: { expiresIn: '10000m' },
     }),
+    UsersModule,
   ],
+  controllers: [SignInController],
   exports: [JwtModule, AuthService, LocalAuthGuard, JwtAuthGuard],
   providers: [
     LocalStrategy,
@@ -22,10 +25,6 @@ import { User } from '../models';
     AuthService,
     LocalAuthGuard,
     JwtAuthGuard,
-    {
-      provide: 'USERS_REPOSITORY',
-      useValue: User,
-    },
   ],
 })
 export class AuthModule {}
