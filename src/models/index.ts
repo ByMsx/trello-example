@@ -3,6 +3,10 @@ import { Column } from './column';
 import { Card } from './card';
 import { Comment } from './comment';
 
+// TODO: не вникал в тонкости sequalize, но видимо это всё вынесено в отдельный файл, чтобы не было циклической зависимости.
+//  Но это всё-же это должно описываться в моделях, т.к. здесь это плохо читается
+// Ответ: к сожалению, не получится. Или может я чего-то не знаю.
+
 User.hasMany(Column, {
   foreignKey: 'ownerId',
   as: 'columns',

@@ -9,13 +9,13 @@ import {
 import { sequelize } from './connection';
 import { Column } from './column';
 
-interface UserAttributes {
+export interface UserAttributes {
   id: number;
   email: string;
   passwordHash: string;
 }
 
-type UserCreationAttributes = Optional<UserAttributes, 'id'>;
+export type UserCreationAttributes = Optional<UserAttributes, 'id'>;
 
 export class User
   extends Model<UserAttributes, UserCreationAttributes>

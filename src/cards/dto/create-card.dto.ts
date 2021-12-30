@@ -2,7 +2,9 @@ import { CardCreationAttributes } from '../../models/card';
 import { IsOptional, IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateCardDto implements Omit<CardCreationAttributes, 'columnId'> {
+export class CreateCardDto
+  implements Omit<CardCreationAttributes, 'columnId' | 'ownerId'>
+{
   @ApiProperty({ maxLength: 512, minLength: 1 })
   @IsString()
   @Length(1, 512)

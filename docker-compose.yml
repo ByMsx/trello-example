@@ -8,9 +8,13 @@ services:
       POSTGRES_PASSWORD: example
       POSTGRES_USER: example
       POSTGRES_DB: example
+    ports:
+      - "5432:5432" # For debugging purposes
 
   trello:
     build: .
+    env_file:
+      - app.env
     links:
       - db
     ports:

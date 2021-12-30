@@ -10,12 +10,12 @@ import {
   ParseIntPipe,
   HttpCode,
 } from '@nestjs/common';
-import { ColumnsService } from '../shared/columns.service';
+import { ColumnsService } from './columns.service';
 import { CreateColumnDto } from './dto/create-column.dto';
 import { UpdateColumnDto } from './dto/update-column.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserFromJwt, User } from '../auth/user.decorator';
-import { IsColumnOwnerGuard } from '../shared/is-column-owner-guard.service';
+import { IsColumnOwnerGuard } from './is-column-owner-guard.service';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -65,7 +65,7 @@ export class ColumnsController {
     @Param('columnId', ParseIntPipe) id: number,
     @Body() updateColumnDto: UpdateColumnDto,
   ) {
-    return this.columnsService.update(+id, updateColumnDto);
+    return this.columnsService.update(id, updateColumnDto);
   }
 
   @UseGuards(IsColumnOwnerGuard)
@@ -77,6 +77,6 @@ export class ColumnsController {
     description: 'ID of column to remove',
   })
   async remove(@Param('columnId', ParseIntPipe) id: number) {
-    await this.columnsService.remove(+id);
+    await this.columnsService.remove(id);
   }
 }

@@ -2,6 +2,7 @@ import { Association, DataTypes, Model, Optional } from 'sequelize';
 import { User } from './user';
 import { sequelize } from './connection';
 import { ApiProperty } from '@nestjs/swagger';
+import { HaveOwner } from '../have-owner.interface';
 
 export interface ColumnAttributes {
   id: number;
@@ -14,25 +15,21 @@ export type ColumnCreationAttributes = Optional<ColumnAttributes, 'id'>;
 
 export class Column
   extends Model<ColumnAttributes, ColumnCreationAttributes>
-  implements ColumnAttributes
+  implements ColumnAttributes, HaveOwner
 {
   @ApiProperty()
-  public id!: number;
+  public id: number;
   @ApiProperty()
-  public title!: string;
+  public title: string;
 
   @ApiProperty()
-  public ownerId!: number;
+  public ownerId: number;
   public readonly owner?: User;
 
   @ApiProperty()
-  public readonly createdAt!: Date;
+  public readonly createdAt: Date;
   @ApiProperty()
-  public readonly updatedAt!: Date;
-
-  public canUserEdit(userId: number): boolean {
-    return this.ownerId === userId;
-  }
+  public readonly updatedAt: Date;
 
   public static associations: {
     owner: Association<Column, User>;

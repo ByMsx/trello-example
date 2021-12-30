@@ -3,10 +3,11 @@ import { User } from './user';
 import { Card } from './card';
 import { sequelize } from './connection';
 import { ApiProperty } from '@nestjs/swagger';
+import { HaveOwner } from '../have-owner.interface';
 
 export interface CommentAttributes {
   id: number;
-  authorId: number;
+  ownerId: number;
   cardId: number;
   text: string;
 }
@@ -15,16 +16,16 @@ export type CommentCreationAttributes = Optional<CommentAttributes, 'id'>;
 
 export class Comment
   extends Model<CommentAttributes, CommentCreationAttributes>
-  implements CommentAttributes
+  implements CommentAttributes, HaveOwner
 {
   @ApiProperty()
-  public id!: number;
+  public id: number;
   @ApiProperty()
-  public text!: string;
+  public text: string;
   @ApiProperty()
-  public cardId!: number;
+  public cardId: number;
   @ApiProperty()
-  public authorId!: number;
+  public ownerId: number;
 
   public readonly card?: Card;
   public readonly author?: User;
@@ -57,7 +58,7 @@ Comment.init(
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     },
-    authorId: {
+    ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {

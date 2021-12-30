@@ -1,15 +1,21 @@
-import { HttpCode, NotFoundException } from "@nestjs/common";
-import { Model } from "sequelize";
+import { NotFoundException } from '@nestjs/common';
+import { Model } from 'sequelize';
+import { plainToClass } from 'class-transformer';
 
-export class ModelService<T extends Model, U> {
-  constructor(protected model: any) { // TODO: fix any
+export class ModelService<T extends Model, D, U> {
+  constructor(protected model: any, protected dtoConstructor: new () => D) {}
+
+  async findAll(): Promise<D[]> {
+    const records = await this.model.findAll();
+    return records.map((record) => this.mapToDto(record));
   }
 
-  findAll() {
-    return this.model.findAll();
+  async findOne(id: number): Promise<D> {
+    const instance = await this.model.findByPk(id, { raw: true });
+    return this.mapToDto(instance);
   }
 
-  async findOne(id: number): Promise<T> {
+  private async findOne_(id: number): Promise<T> {
     const instance = await this.model.findByPk(id);
     if (!instance) {
       throw new NotFoundException();
@@ -19,13 +25,17 @@ export class ModelService<T extends Model, U> {
   }
 
   async update(id: number, updateCardDto: U) {
-    const card = await this.findOne(id);
-    return card.update(updateCardDto);
+    const card = await this.findOne_(id);
+    await card.update(updateCardDto);
+    return this.mapToDto(card);
   }
 
-  @HttpCode(204)
   async remove(id: number) {
-    const card = await this.findOne(id);
+    const card = await this.findOne_(id);
     await card.destroy();
+  }
+
+  protected mapToDto(instance: T): D {
+    return plainToClass(this.dtoConstructor, instance);
   }
 }
